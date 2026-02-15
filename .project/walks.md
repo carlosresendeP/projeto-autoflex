@@ -41,7 +41,7 @@ npm install axios
 
 testar funcionamento do frontend  **ok**
 
-
+## Criando os arquivos e a logica do backend
 *voltando ao backend*
 /backend
 
@@ -59,3 +59,12 @@ java/com/autoflex
     -productionResorce(/suggestions , get)
 -services
     -ProductionSevice (Vai calcular a produção sugerida)
+
+-adcionar o cors como true no resourse
+
+criando um banco com o docker  (docker run --name ... )
+mudando nome de uma rota
+testes de requisisoes de todas as rotas 
+
+### Criando os arquivos e a logica do frontend
+*voltado do frontend*

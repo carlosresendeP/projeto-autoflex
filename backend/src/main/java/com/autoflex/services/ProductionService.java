@@ -22,12 +22,12 @@ public class ProductionService {
 
         for (Product product : products) {
             long canProduce = Long.MAX_VALUE;
-            List<ProductIngredient> ingredients = ProductIngredient.find("product", product).list();
+            List<Composition> ingredients = Composition.find("product", product).list();
 
             if (ingredients.isEmpty()) continue;
 
             // 2. Calcular o gargalo (menor quantidade possível baseada no insumo)
-            for (ProductIngredient ing : ingredients) {
+            for (Composition ing : ingredients) {
                 double available = tempStock.getOrDefault(ing.rawMaterial.id, 0.0);
                 long possibleWithThisIng = (long) (available / ing.quantityRequired);
                 canProduce = Math.min(canProduce, possibleWithThisIng);
@@ -41,7 +41,7 @@ public class ProductionService {
                 ));
                 
                 // 3. Abater do estoque temporário para o próximo produto da lista
-                for (ProductIngredient ing : ingredients) {
+                for (Composition ing : ingredients) {
                     double current = tempStock.get(ing.rawMaterial.id);
                     tempStock.put(ing.rawMaterial.id, current - (canProduce * ing.quantityRequired));
                 }

@@ -30,22 +30,24 @@ public class RawMaterialResource {
     public RawMaterial update(@PathParam("id") Long id, RawMaterial material) {
         RawMaterial entity = RawMaterial.findById(id);
         if (entity == null) {
-            throw new NotFoundException();
+            throw new NotFoundException("Matéria-prima não encontrada.");
         }
-        entity.code = material.code;
-        entity.name = material.name;
-        entity.stockQuantity = material.stockQuantity;
+
+        if (material.code != null) entity.code = material.code;
+        if (material.name != null) entity.name = material.name;
+        if (material.stockQuantity != null) entity.stockQuantity = material.stockQuantity;
+
         return entity;
     }
 
     @DELETE
     @Path("/{id}")
     @Transactional
-    public void delete(@PathParam("id") Long id) {
-        RawMaterial entity = RawMaterial.findById(id);
-        if (entity == null) {
+    public Response delete(@PathParam("id") Long id) {
+        boolean deleted = RawMaterial.deleteById(id);
+        if (!deleted) {
             throw new NotFoundException();
         }
-        entity.delete();
+        return Response.noContent().build();
     }
 }

@@ -16,9 +16,7 @@ public class ProductionResource {
 
     @GET
     @Path("/suggestion")
-    public List<Productio
-    
-    SuggestionDTO> suggest() {
+    public List<ProductionSuggestionDTO> suggest() {
         return productionService.getSuggestion();
     }
 }
