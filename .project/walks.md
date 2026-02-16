@@ -64,7 +64,15 @@ java/com/autoflex
 
 criando um banco com o docker  (docker run --name ... )
 mudando nome de uma rota
-testes de requisisoes de todas as rotas 
+testes de requisisoes de todas as rotas
+get, post, put, e delete *ok*
+
 
 ### Criando os arquivos e a logica do frontend
 *voltado do frontend*
+criação de algumas pastas=> pages, services, types, components, store
+.env
+    Api URL localhost:8080
+services
+    -api.ts (com axios)
+
