@@ -1,19 +1,22 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch } from "../store/hooks";
-import { addProduct } from "../store/productSlice";
+import { addProduct, editProduct } from "../store/productSlice";
 import {
   productSchema,
   type ProductFormData,
   type ProductFormInput,
 } from "../schemas/productSchema";
+import type { Product } from "../types";
 
 interface ProductFormProps {
   onClose: () => void;
+  initialData?: Product;
 }
 
-export const ProductForm = ({ onClose }: ProductFormProps) => {
+export const ProductForm = ({ onClose, initialData }: ProductFormProps) => {
   const dispatch = useAppDispatch();
+  const isEditing = !!initialData;
 
   const {
     register,
@@ -21,17 +24,26 @@ export const ProductForm = ({ onClose }: ProductFormProps) => {
     formState: { errors, isSubmitting },
   } = useForm<ProductFormInput, ProductFormData>({
     resolver: zodResolver(productSchema),
-    defaultValues: {
-      code: "",
-      name: "",
-      value: 0,
-    },
+    defaultValues: isEditing
+      ? {
+          code: initialData.code,
+          name: initialData.name,
+          value: initialData.value,
+        }
+      : {
+          code: "",
+          name: "",
+          value: 0,
+        },
   });
 
   const handleSave = async (data: ProductFormData) => {
     try {
-      // unwrap() permite capturar erros do createAsyncThunk aqui no catch
-      await dispatch(addProduct(data)).unwrap();
+      if (!isEditing){
+        await dispatch(addProduct(data)).unwrap();
+      }else{
+        await dispatch(editProduct({ ...initialData, ...data })).unwrap();
+      }
       onClose();
     } catch (error) {
       console.error("Erro ao salvar produto:", error);
@@ -44,7 +56,7 @@ export const ProductForm = ({ onClose }: ProductFormProps) => {
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
         <div className="bg-blue-600 p-6">
           <h2 className="text-xl font-bold text-white">
-            Cadastrar Novo Produto
+            {isEditing ? "Editar Produto" : "Cadastrar Novo Produto"}
           </h2>
         </div>
 

@@ -83,4 +83,17 @@ criação da pagina de produtos
 criação do componente card geral
 criação do form com react hook form
 
+rota : http://localhost:5173/products
+
 no geral a pagina de produtos carrega todos os produtos q vem do banco de dados e agora é possivel criar produtos
+
+criação da pagina de materias-primas
+criação do componente materialDetailsModal e productDetailsModal
+criação do de um novo card ao clair no card tanto de produtos quanto de materias-primas
+adiição do /put e /delete o slide de produtos e materias-primas
+logica de edição e exclusão de produtos e materias-primas
+edição do product.tsx e material.tsx para que seja possivel editar e excluir
+
+rota : http://localhost:5173/materials
+
+Ficou assim apos as melhorias: Agora é possivel criar, editar e excluir produtos e materias-primas 
