@@ -76,3 +76,11 @@ criação de algumas pastas=> pages, services, types, components, store
 services
     -api.ts (com axios)
 
+criação dos types
+Criaçao do store(hook, index, productionSlide e prouductSlide)
+criação do schema dos produtos com zod
+criação da pagina de produtos
+criação do componente card geral
+criação do form com react hook form
+
+no geral a pagina de produtos carrega todos os produtos q vem do banco de dados e agora é possivel criar produtos

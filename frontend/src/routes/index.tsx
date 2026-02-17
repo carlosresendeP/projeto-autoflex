@@ -2,17 +2,23 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Home from "../pages/Home";
 import NotFound from "../components/NotFound";
 import AppLayout from "../layout/AppLayout";
+import { Provider } from "react-redux";
+import { store } from "../store";
+import Products from "../pages/Products";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<AppLayout />}>
-          <Route index element={<Home />} />
-        </Route>
+      <Provider store={store}>
+        <Routes>
+          <Route path="/" element={<AppLayout />}>
+            <Route index element={<Home />} />
+            <Route path="products" element={<Products />} />
+          </Route>
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Provider>
     </BrowserRouter>
   );
 };
