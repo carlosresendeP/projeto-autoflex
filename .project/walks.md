@@ -114,3 +114,11 @@ corrigir a responsividade do frontend
 correção de erros
 correção na busca de produtos, materias-primas e composição feedback do usuário
 remoção de comentarios do codigo e correção de linguagem
+
+
+instalar o cypress
+npm install cypress --save-dev
+npx cypress open
+e feito o teste automatizado de todo o fluxo do projeto *ok*
+
+
