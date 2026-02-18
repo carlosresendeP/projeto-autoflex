@@ -1,137 +1,151 @@
-# 🏭 AutoFlex Inventory Management
+# 🏭 AutoFlex: Sistema de Gestão Industrial
 
-> **Sistema Completo de Gestão de Estoque e Produção Industrial**
+> **Otimize seu estoque. Maximize sua produção.**
 
-Bem-vindo ao **AutoFlex**, uma solução moderna para indústrias que buscam eficiência no controle de matérias-primas e otimização da produção. O sistema gerencia todo o ciclo de vida do produto, desde o cadastro de insumos até a **sugestão inteligente de fabricação** baseada no estoque disponível e lucratividade.
+Bem-vindo ao **AutoFlex**, uma solução completa de _Inventory Management_ desenvolvida para indústrias que precisam de inteligência na hora de produzir. Este projeto é uma **aplicação Full Stack** moderna que não apenas controla o que você tem, mas diz o que você deve fazer com isso.
 
----
-
-## 📋 Descrição do Projeto
-
-Este projeto foi desenvolvido como um desafio técnico completo, demonstrando habilidades em **Full Stack Development**. Ele resolve o problema de calcular "o que produzir hoje?" com base nos ingredientes que você tem na prateleira.
-
-### ✨ O que o sistema faz?
-
-1.  **Gerencia Estoque**: Controla quantidades de matérias-primas.
-2.  **Define Receitas**: Cria a composição técnica de cada produto.
-3.  **Sugere Produção**: Um algoritmo analisa o estoque e diz: _"Com o que temos, você pode produzir X unidades do Produto A e lucrar R$ Y."_
-4.  **Dashboard**: Visão clara de todos os indicadores.
+![Status do Projeto](https://img.shields.io/badge/Status-Conclu%C3%ADdo-green) ![Docker](https://img.shields.io/badge/Docker-Enabled-blue) ![Java](https://img.shields.io/badge/Java-17-orange) ![React](https://img.shields.io/badge/React-18-blue)
 
 ---
 
-## 🏗️ Arquitetura do Sistema
+## 📋 Sobre o Projeto
 
-O projeto segue o padrão de microserviços/SPA, dividido em dois grandes módulos.
+O **AutoFlex** resolve um problema clássico da manufatura: o desperdício de potencial. Muitas vezes, uma fábrica tem insumos parados no estoque que poderiam virar produtos acabados e gerar receita imediata.
 
-```mermaid
-graph LR
-    User[Usuário] --> Frontend
-    subgraph "Camada de Apresentação"
-        Frontend[Frontend React]
-    end
+### 💡 O Diferencial: "Sugestão Inteligente"
 
-    subgraph "Camada de Negócio"
-        Backend[Backend Quarkus]
-    end
+O coração do sistema é o algoritmo de sugestão. Ele analisa:
 
-    subgraph "Camada de Dados"
-        DB[(PostgreSQL)]
-    end
+1.  **Receita do Produto**: (Ex: 1 Mesa precisa de 4 Pernas + 1 Tampo)
+2.  **Estoque Atual**: (Ex: Temos 40 Pernas e 10 Tampos)
+3.  **Valor de Venda**: (Ex: Mesa custa R$ 200)
 
-    Frontend -- REST API --> Backend
-    Backend -- Hibernate --> DB
-```
-
-### 📚 Documentação Detalhada por Módulo
-
-Para não sobrecarregar este arquivo, criamos manuais detalhados para cada parte do sistema:
-
-| Módulo       | Descrição                                      | Link                                                    |
-| :----------- | :--------------------------------------------- | :------------------------------------------------------ |
-| **Backend**  | API REST, Endpoints, Banco de Dados e Quarkus. | [📖 Ler Documentação do Backend](./backend/README.md)   |
-| **Frontend** | Interface, Componentes, Redux e React.         | [📖 Ler Documentação do Frontend](./frontend/README.md) |
+O sistema cruza esses dados e informa: _"Produza 10 Mesas hoje e fature R$ 2.000,00"_.
 
 ---
 
-## ✅ Checklist do MVP
+## 🏗️ Arquitetura e Tecnologias
 
-Funcionalidades entregues nesta versão:
+O projeto foi construído sobre uma arquitetura de microsserviços simulada, pronta para escalar.
 
-- [x] **Cadastro de Produtos**: CRUD completo (Criar, Ler, Atualizar, Deletar).
-- [x] **Controle de Matérias-Primas**: Gestão de estoque de insumos.
-- [x] **Composição de Produtos**: Vínculo N:N entre Produtos e Matérias-Primas (Receitas).
-- [x] **Sugestão de Produção**: Algoritmo de cálculo de produção viável.
-- [x] **Dashboard Interativo**: Telas responsivas com React.
-- [x] **Testes Automatizados**: Fluxos principais cobertos com Cypress.
+### 🧠 Backend (A Inteligência)
+
+- **Java 17 & Quarkus**: Escolhido pela performance nativa e inicialização em milissegundos.
+- **Hibernate Panache**: Simplifica a camada de dados (Repository Pattern).
+- **PostgreSQL**: Banco relacional robusto para integridade dos dados.
+- **Docker**: Todo o ambiente de banco rodando em containers.
+
+### 🎨 Frontend (A Experiência)
+
+- **React 18 & Vite**: Velocidade extrema de carregamento.
+- **Redux Toolkit**: Gerenciamento de estado global centralizado.
+- **TailwindCSS**: Design system moderno e responsivo.
+- **Zod & React Hook Form**: Validação de dados rigorosa no client-side.
 
 ---
 
-## 🚀 Guia Rápido: Como Rodar (Passo a Passo)
+## 🚀 PASSO A PASSO: Guia de Execução
 
-Siga este guia para ter o projeto rodando em menos de 5 minutos.
+Siga este roteiro detalhado para rodar o projeto do zero na sua máquina.
 
-### Pré-requisitos
+### 🛑 1. Verificando Pré-requisitos
 
-- **Docker** (Instalado e rodando)
-- **Node.js** (v18+)
-- **Java** (JDK 17+)
-
-### 1️⃣ Clonar o Projeto
+Antes de começar, abra seu terminal e verifique se você tem as ferramentas necessárias.
 
 ```bash
-git clone https://github.com/carlosresendeP/projeto-autoflex.git
-cd projeto-autoflex
+# Verifique o Java (Deve ser versão 17 ou superior)
+java -version
+
+# Verifique o Node.js (Deve ser versão 18 ou superior)
+node -v
+
+# Verifique o Docker (Deve estar instalado e rodando)
+docker --version
 ```
 
-### 2️⃣ Subir o Banco de Dados (Docker)
+> _Se algum comando falhar, instale a ferramenta correspondente antes de prosseguir._
 
-Não precisa instalar o Postgres na sua máquina, apenas rode o container:
+### 🛠️ 2. Configurando o Banco de Dados (Docker)
+
+Não instale o PostgreSQL na sua máquina! Vamos usar a magia do Docker.
+
+Abra o terminal e execute:
 
 ```bash
 docker run --name autoflex-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=autoflex -p 5432:5432 -d postgres
 ```
 
-### 3️⃣ Iniciar o Backend
+**O que isso faz?**
 
-Em um terminal, acesse a pasta `backend` e inicie o servidor Quarkus:
+- Cria um banco PostgreSQL isolado.
+- Define usuário/senha como `postgres`/`postgres`.
+- Cria o database `autoflex` automaticamente.
+- Libera a porta `5432` para nosso Backend conectar.
+
+### 🔌 3. Iniciando o Backend
+
+Abra um terminal, entre na pasta `backend` e rode:
 
 ```bash
 cd backend
 quarkus dev
 ```
 
-_Aguarde até ver "Profile dev activated"._
+> Aguarde a mensagem: `Profile dev activated`.
+> A API estará rodando em: `http://localhost:8080`
 
-### 4️⃣ Iniciar o Frontend
+### 🖥️ 4. Iniciando o Frontend
 
-Em **outro terminal**, acesse a pasta `frontend` e inicie o React:
+Mantenha o terminal do backend aberto. Abra **outro terminal**, vá na pasta `frontend` e rode:
 
 ```bash
 cd frontend
-npm install
-npm run dev
+npm install  # Instala as dependências (React, Tailwind, etc)
+npm run dev  # Inicia o servidor local
 ```
 
-_Acesse o sistema em: http://localhost:5173_
+> O sistema abrirá em: `http://localhost:5173`
 
 ---
 
-## ❓ Dúvidas e Decisões de Projeto
+## 📚 Documentação Técnica Profissional
 
-### Por que Quarkus no Backend?
+Para desenvolvedores que querem entender os detalhes internos, preparei documentações específicas:
 
-Escolhi o Quarkus pela sua **velocidade de inicialização** e baixo consumo de memória ("Supersonic Subatomic Java"), ideal para arquiteturas modernas e cloud-native. Além disso, o padrão **Panache** simplifica drasticamente a camada de persistência (Hibernate).
-
-### Por que Postgres no Docker?
-
-Para garantir que **qualquer desenvolvedor** consiga rodar o projeto sem poluir sua máquina instalando bancos de dados locais. O container garante que todos usem a mesma versão e configuração do banco.
-
-### Redux vs Context API?
-
-Optei pelo **Redux Toolkit** devido à necessidade de compartilhar o estado de "Produtos" e "Matérias-Primas" entre várias telas diferentes (Sugestão, Listagem, Edição). O Redux centraliza essa lógica e evita refetching desnecessário dos dados.
+| Área         | Conteúdo                                                    | Link                                               |
+| :----------- | :---------------------------------------------------------- | :------------------------------------------------- |
+| **Backend**  | Lista completa de Endpoints (JSON), Camadas e Configuração. | [**Ler README do Backend**](./backend/README.md)   |
+| **Frontend** | Estrutura de Pastas, Componentes Visuais e Redux.           | [**Ler README do Frontend**](./frontend/README.md) |
 
 ---
 
-## 📝 Licença
+## ✅ Checklist de Funcionalidades (MVP)
 
-Desenvolvido por **Carlos Resende** para fins de estudo e portfólio.
+Tudo o que foi entregue nesta versão 1.0:
+
+- [x] **Cadastro de Produtos** (CRUD)
+- [x] **Gestão de Matérias-Primas** (Estoque)
+- [x] **Criação de Receitas/Composições**
+- [x] **Algoritmo de Sugestão de Produção**
+- [x] **Relatórios/Dashboard**
+- [x] **Testes E2E com Cypress**
+
+---
+
+## ❓ Dúvidas Comuns
+
+**"O banco de dados não conecta!"**
+
+- Verifique se o Docker Desktop está aberto.
+- Rode `docker ps` e veja se o container `autoflex-db` está com status `Up`.
+
+**"Posso mudar a porta do frontend?"**
+
+- Sim, edite o arquivo `vite.config.ts`.
+
+---
+
+## 📝 Autor
+
+Desenvolvido com carinho e código limpo por **Carlos Resende**.
+_Projeto criado para fins de estudo e demostração técnica._

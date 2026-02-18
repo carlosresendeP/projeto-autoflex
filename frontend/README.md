@@ -1,109 +1,100 @@
-# 🎨 AutoFlex Frontend
+# 🎨 Frontend do AutoFlex: A Vitrine da Produção
 
-O frontend do AutoFlex é uma Single Page Application (SPA) moderna, construída com **React 18** e **Vite**, focada em performance e experiência do usuário.
+> **Interface construída para ser Rápida, Bonita e Funcional**
 
-## 🛠️ Tecnologias Principais
+Este é o guia definitivo para o frontend em React. Aqui explicamos as decisões de design, a estrutura de pastas e como estender a interface.
 
-- **React 18**: Biblioteca JavaScript para UI.
-- **Vite**: Ferramenta de build de última geração (substitui o Create React App).
-- **TypeScript**: Adiciona tipagem estática ao JavaScript.
-- **TailwindCSS**: Framework CSS utility-first para estilização rápida.
-- **Redux Toolkit**: Gerenciamento de estado global da aplicação.
-- **React Hook Form**: Gerenciamento de formulários complexos.
-- **Zod**: Validação de schemas (usado em conjunto com React Hook Form).
-- **Axios**: Cliente HTTP para comunicação com o Backend.
-- **Cypress**: Framework de testes End-to-End.
+---
 
-## 📂 Arquitetura do Frontend
+## 🛠️ Por dentro da Stack (Decisões Técnicas)
 
-A estrutura foi pensada para escalar com facilidade:
+### 1. Vite vs Create React App
 
-```
-frontend/src/
-├── components/   # Componentes reutilizáveis (UI Kit)
-│   ├── Button.tsx
-│   ├── Card.tsx
-│   ├── Modal.tsx
-│   └── ...
-├── pages/        # Telas da aplicação (Roteamento)
-│   ├── Products/
-│   ├── Materials/
-│   └── Production/
-├── store/        # Estado Global (Redux Slices)
-│   ├── productSlice.ts
-│   └── store.ts
-├── services/     # Configuração de API (Axios)
-│   └── api.ts    # Instância base do Axios
-├── layout/       # Componentes estruturais
-│   ├── Header.tsx
-│   └── Footer.tsx
-└── types/        # Definições de Tipos TypeScript
-```
+Usamos o **Vite** porque ele usa ES Modules nativos no navegador.
 
-## 🚀 Como Rodar o Frontend
+- **Resultado**: O servidor sobe em < 300ms, contra 30s+ do CRA.
 
-### Pré-requisitos
+### 2. Redux Toolkit
 
-- Node.js 18+ instalado
-- O Backend deve estar rodando (para que as requisições funcionem)
+Por que um gerenciador de estado global?
 
-### 1. Instalar Dependências
+- O AutoFlex tem dados complexos compartilhados: quando você atualiza um **Produto**, a tela de **Sugestão de Produção** precisa saber disso instantaneamente. O Redux garante essa sincronia sem precisar recarregar a página.
 
-No diretório `frontend`, execute:
+### 3. Zod + React Hook Form
+
+- Validamos tudo no cliente antes de enviar para o servidor.
+- **Zod**: Cria o schema (regras).
+- **React Hook Form**: Gerencia os inputs sem re-renderizar o componente inteiro a cada digitação.
+
+---
+
+## 📂 Anatomia do Frontend
+
+Entenda onde cada peça do quebra-cabeça se encaixa em `src/`:
 
 ```bash
-npm install
+src/
+├── 🧩 components/  -> TIJOLOS (Botões, Inputs, Cards)
+│   ├── ui/         -> Componentes genéricos (shadcn-like)
+│   └── domain/     -> Componentes de negócio (ProductCard)
+├── 📄 pages/       -> CÔMODOS (As telas que o usuário vê)
+│   ├── Products/   -> Listagem e Edição de Produtos
+│   └── Production/ -> O Dashboard de Sugestões
+├── 🧠 store/       -> CÉREBRO (Estado Global - Redux)
+│   ├── slices/     -> Lógica fatiada (productSlice.ts)
+├── 📡 services/    -> MENSAGEIRO (Axios / API)
+│   └── api.ts      -> Configuração do cliente HTTP
+└── 📐 types/       -> CONTRATOS (Interfaces TypeScript)
 ```
 
-### 2. Rodar em Modo Dev
+---
 
-Inicie o servidor de desenvolvimento:
+## 🚀 Scripts de Desenvolvimento
 
-```bash
-npm run dev
+No seu dia a dia, você usará estes comandos no terminal (`frontend/`):
+
+| Comando           | O que ele faz?                                                |
+| :---------------- | :------------------------------------------------------------ |
+| `npm run dev`     | **Inicia o servidor local**. É aqui que a mágica acontece.    |
+| `npm run build`   | **Compila para Produção**. Gera a pasta `dist` otimizada.     |
+| `npm run preview` | **Testa o Build**. Roda localmente a versão final gerada.     |
+| `npm run lint`    | **Caça Bugs**. O ESLint analisa seu código em busca de erros. |
+
+---
+
+## 📡 Integração com o Backend
+
+A API está configurada em `src/services/api.ts`.
+Se precisar mudar a URL do backend (ex: deploy), crie um arquivo `.env` na raiz do `frontend`:
+
+```env
+VITE_API_URL=https://api-autoflex-producao.com
 ```
 
-> O Frontend estará acessível em: `http://localhost:5173`
-
-## 📦 Scripts Disponíveis
-
-No arquivo `package.json`, você encontrará os seguintes scripts:
-
-- `npm run dev`: Inicia o servidor de desenvolvimento.
-- `npm run build`: Cria a versão de produção na pasta `dist`.
-- `npm run lint`: Verifica erros de linting no código.
-- `npm run preview`: Visualiza a versão de produção localmente.
-- `npx cypress open`: Abre a interface de testes do Cypress.
-
-## 🧩 Componentes Principais
-
-### `GenericTable`
-
-Um componente de tabela reutilizável que aceita dados genéricos e renderiza colunas dinamicamente. Usado nas telas de **Produtos** e **Matérias-Primas**.
-
-### `Modal`
-
-Gerenciador de janelas modais para criação e edição de itens, garantindo que o usuário mantenha o foco na tarefa atual.
-
-### `KPI Cards`
-
-Cards informativos no topo das páginas que mostram resumos rápidos (Total de Produtos, Valor em Estoque, etc.).
-
-## 🔄 Gerenciamento de Estado (Redux)
-
-Utilizamos o **Redux Toolkit** para gerenciar o estado global. Isso evita o "prop drilling" (passar propriedades por muitos níveis).
-
-- **productSlice**: Armazena a lista de produtos e status de carregamento.
-- **materialSlice**: Armazena o estoque de matérias-primas.
-- **productionSlice**: Armazena as sugestões de produção calculadas.
-
-## 📡 Integração com API
-
-A comunicação com o backend é feita através do **Axios**, configurado em `src/services/api.ts`.
+### Exemplo de uso no código:
 
 ```typescript
-// Exemplo de chamada:
-const response = await api.get("/products");
+import { api } from "../services/api";
+
+// Buscando produtos
+const carregarProdutos = async () => {
+  const { data } = await api.get("/products");
+  return data; // Já vem tipado!
+};
 ```
 
-A URL base da API é definida via variáveis de ambiente (`VITE_API_URL`) ou padrão para `http://localhost:8080`.
+---
+
+## 🧪 Testes E2E (Cypress)
+
+Garantimos que o usuário consegue completar os fluxos principais.
+
+Para rodar os testes visualmente:
+
+```bash
+npx cypress open
+```
+
+1.  Escolha **E2E Testing**.
+2.  Escolha **Chrome** (ou o navegador de sua preferência).
+3.  Clique em **product-flow.cy.ts** para ver o robô trabalhando.

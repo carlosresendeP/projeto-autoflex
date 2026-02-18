@@ -1,109 +1,160 @@
-# 🧠 AutoFlex Backend
+# 🧠 Backend do AutoFlex: A Inteligência do Controle
 
-O backend do AutoFlex é uma API RESTful robusta construída com **Java 17** e **Quarkus**, utilizando **Hibernate Panache** para persistência e **PostgreSQL** como banco de dados.
+> **Documentação Técnica para Desenvolvedores Backend**
 
-## 🛠️ Tecnologias e Ferramentas
+Bem-vindo à documentação oficial da API do **AutoFlex**. Aqui você encontrará tudo o que precisa para entender, executar e estender a camada de servidor desta aplicação.
 
-- **Linguagem**: Java 17+
-- **Framework**: Quarkus 3.x ("Supersonic Subatomic Java")
-- **Banco de Dados**: PostgreSQL 14+
-- **ORM**: Hibernate ORM with Panache
-- **API**: RESTEasy Reactive (JAX-RS)
-- **Build Tool**: Maven
+---
 
-## 📂 Estrutura de Pastas
+## 🏗️ Arquitetura Clean e SOLID
 
-A estrutura do projeto segue os princípios do Quarkus para micros serviços, mantendo o código limpo e organizado:
+Nosso backend foi construído com foco em **separation of concerns** (separação de responsabilidades). Seguimos um padrão de camadas bem definido:
 
-```
-backend/src/main/java/com/autoflex/
-├── models/       # Entidades JPA (Mapeamento do Banco de Dados)
-│   ├── Product.java
-│   ├── RawMaterial.java
-│   └── Composition.java
-├── resources/    # Controladores REST (Endpoints da API)
-│   ├── ProductResource.java
-│   └── ...
-├── services/     # Regras de Negócio e Lógica Complexa
-│   └── ProductionService.java
-└── dto/          # Data Transfer Objects (Objetos de retorno)
+```mermaid
+graph TD
+    API[Controller / Resource] -->|Valida Dados| Service[Service Layer]
+    Service -->|Regra de Negócio| Repo[Repository / Panache]
+    Repo -->|Persiste| DB[(PostgreSQL)]
 ```
 
-## 🚀 Como Rodar o Backend
+### 📂 Onde as coisas vivem?
 
-### Pré-requisitos
+| Pacote                   | Responsabilidade                                                | Exemplo                        |
+| :----------------------- | :-------------------------------------------------------------- | :----------------------------- |
+| `com.autoflex.resources` | **Endpoints da API**. Recebem requisições HTTP e retornam JSON. | `ProductResource.java`         |
+| `com.autoflex.services`  | **Regras de Negócio**. Calculam sugestões, validam estoques.    | `ProductionService.java`       |
+| `com.autoflex.models`    | **Entidades JPA**. Mapeiam as tabelas do banco de dados.        | `Product.java`                 |
+| `com.autoflex.dto`       | **DTOs**. Objetos de transferência de dados (Responses).        | `ProductionSuggestionDTO.java` |
 
-- Java JDK 17+ instalado
-- Docker rodando (para o banco de dados)
+---
 
-### 1. Subir o Banco de Dados
+## 🔌 API Reference (Endpoints)
 
-Se você ainda não criou o container do banco, execute:
+Todas as requisições e respostas são formatadas em **JSON**.
 
-```bash
-docker run --name autoflex-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=autoflex -p 5432:5432 -d postgres
+### 1. Produtos
+
+Gerencie o catálogo de itens finais.
+
+#### **listar todos** (`GET /products`)
+
+```json
+// Resposta 200 OK
+[
+  {
+    "id": 1,
+    "name": "Mesa de Jantar",
+    "value": 450.0
+  },
+  {
+    "id": 2,
+    "name": "Cadeira",
+    "value": 120.0
+  }
+]
 ```
 
-### 2. Executar em Modo Dev
+#### **Criar Novo** (`POST /products`)
 
-Navegue até a pasta `backend` e execute:
-
-```bash
-# Windows (CMD/PowerShell)
-.\mvnw quarkus:dev
-# Ou se tiver o CLI do Quarkus instalado:
-quarkus dev
+```json
+// Corpo da Requisição
+{
+  "name": "Estante de Livros",
+  "value": 300.5
+}
 ```
 
-> O sistema iniciará na porta **8080**.
-> O console do desenvolvedor (Dev UI) estará disponível em: `http://localhost:8080/q/dev`
+---
 
-## 🔌 Endpoints da API
+### 2. Matérias-Primas
 
-Aqui está a lista completa dos endpoints disponíveis para integração.
+Controle o estoque de insumos.
 
-### 📦 Produtos (`/products`)
+#### **Listar Todas** (`GET /materials`)
 
-| Método   | Endpoint         | Descrição               | Corpo da Requisição (JSON)       |
-| :------- | :--------------- | :---------------------- | :------------------------------- |
-| `GET`    | `/products`      | Lista todos os produtos | -                                |
-| `POST`   | `/products`      | Cria um novo produto    | `{"name": "...", "value": 10.5}` |
-| `PUT`    | `/products/{id}` | Atualiza um produto     | `{"name": "Novo Nome"}`          |
-| `DELETE` | `/products/{id}` | Remove um produto       | -                                |
+```json
+// Resposta 200 OK
+[
+  {
+    "id": 10,
+    "name": "Madeira (m²)",
+    "stockQuantity": 500
+  },
+  {
+    "id": 11,
+    "name": "Parafusos",
+    "stockQuantity": 2000
+  }
+]
+```
 
-### 🧱 Matérias-Primas (`/materials`)
+#### **Atualizar Estoque** (`PUT /materials/{id}`)
 
-| Método   | Endpoint          | Descrição                      | Corpo da Requisição (JSON)              |
-| :------- | :---------------- | :----------------------------- | :-------------------------------------- |
-| `GET`    | `/materials`      | Lista todas as matérias-primas | -                                       |
-| `POST`   | `/materials`      | Cria nova matéria-prima        | `{"name": "...", "stockQuantity": 100}` |
-| `PUT`    | `/materials/{id}` | Atualiza estoque/nome          | `{"stockQuantity": 50}`                 |
-| `DELETE` | `/materials/{id}` | Remove matéria-prima           | -                                       |
+Para dar entrada ou saída de material, atualize a quantidade.
 
-### ⚗️ Composições / Receitas (`/compositions`)
+```json
+// Corpo da Requisição
+{
+  "stockQuantity": 450 // Nova quantidade total
+}
+```
 
-Define do que cada produto é feito.
+---
 
-| Método   | Endpoint             | Descrição                     | Corpo da Requisição (JSON)                                                |
-| :------- | :------------------- | :---------------------------- | :------------------------------------------------------------------------ |
-| `GET`    | `/compositions`      | Lista todas as receitas       | -                                                                         |
-| `POST`   | `/compositions`      | Cria vínculo Produto-Material | `{"product": {"id": 1}, "rawMaterial": {"id": 2}, "quantityRequired": 5}` |
-| `PUT`    | `/compositions/{id}` | Atualiza quantidades          | `{"quantityRequired": 10}`                                                |
-| `DELETE` | `/compositions/{id}` | Remove o vínculo              | -                                                                         |
+### 3. Sugestão de Produção (`GET /production/suggestion`)
 
-### 💡 Produção (`/suggestions`)
+O endpoint mais inteligente do sistema. Ele calcula o que produzir.
 
-| Método | Endpoint       | Descrição                                           | Retorno                                              |
-| :----- | :------------- | :-------------------------------------------------- | :--------------------------------------------------- |
-| `GET`  | `/suggestions` | Calcula a melhor produção com base no estoque atual | Lista de sugestões com Qtd Possível e Valor Estimado |
+**Como funciona?**
 
-## ⚙️ Configuração (.env)
+1.  Busca todas as receitas.
+2.  Verifica o estoque atual de cada ingrediente.
+3.  Retorna uma lista ordenada pelo **Valor Total de Venda**.
 
-O Quarkus gerencia as configurações no arquivo `src/main/resources/application.properties`.
-Para mudar a conexão do banco em produção, você pode usar variáveis de ambiente:
+```json
+// Resposta 200 OK
+[
+  {
+    "productName": "Mesa de Jantar",
+    "possibleQuantity": 5, // Podemos fazer 5 mesas com o estoque atual
+    "totalValue": 2250.0 // (5 * 450.00)
+  },
+  {
+    "productName": "Cadeira",
+    "possibleQuantity": 20,
+    "totalValue": 2400.0
+  }
+]
+```
+
+---
+
+## ⚙️ Configuração (application.properties)
+
+As configurações do Quarkus ficam em `src/main/resources/application.properties`.
+
+### Conexão com Banco de Dados
 
 ```properties
-QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://localhost:5432/autoflex
-QUARKUS_DATASOURCE_USERNAME=postgres
-QUARKUS_DATASOURCE_PASSWORD=postgres
+# Em Produção (usando variáveis de ambiente)
+quarkus.datasource.jdbc.url=${DB_URL}
+quarkus.datasource.username=${DB_USER}
+quarkus.datasource.password=${DB_PASS}
+
+# Em Desenvolvimento (Dev Services - Automático)
+# O Quarkus sobe um Testcontainer automaticamente se não configurar nada!
 ```
+
+---
+
+## 🛠️ Comandos Úteis
+
+### Rodar Migrations (Se houver Flyway)
+
+```bash
+./mvnw clean compile quarkus:dev
+```
+
+### Debugar
+
+O Quarkus habilita debug na porta **5005** por padrão. Configure sua IDE para "Remote JVM Debug" nesta porta.
