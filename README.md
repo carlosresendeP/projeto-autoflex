@@ -1,10 +1,10 @@
-# 🏭 AutoFlex: Sistema de Gestão Industrial
+# AutoFlex: Sistema de Gestão 
 
 > **Otimize seu estoque. Maximize sua produção.**
 
 Bem-vindo ao **AutoFlex**, uma solução completa de _Inventory Management_ desenvolvida para indústrias que precisam de inteligência na hora de produzir. Este projeto é uma **aplicação Full Stack** moderna que não apenas controla o que você tem, mas diz o que você deve fazer com isso.
 
-![Status do Projeto](https://img.shields.io/badge/Status-Conclu%C3%ADdo-green) ![Docker](https://img.shields.io/badge/Docker-Enabled-blue) ![Java](https://img.shields.io/badge/Java-17-orange) ![React](https://img.shields.io/badge/React-18-blue)
+![Status do Projeto](https://img.shields.io/badge/Status-Conclu%C3%ADdo-green) ![Docker](https://img.shields.io/badge/Docker-Enabled-blue) ![Java](https://img.shields.io/badge/Java-17-orange) ![Quarkus](https://img.shields.io/badge/Quarkus-2.16-orange) ![React](https://img.shields.io/badge/React-18-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
 
 ---
 
@@ -16,9 +16,9 @@ O **AutoFlex** resolve um problema clássico da manufatura: o desperdício de po
 
 O coração do sistema é o algoritmo de sugestão. Ele analisa:
 
-1.  **Receita do Produto**: (Ex: 1 Mesa precisa de 4 Pernas + 1 Tampo)
-2.  **Estoque Atual**: (Ex: Temos 40 Pernas e 10 Tampos)
-3.  **Valor de Venda**: (Ex: Mesa custa R$ 200)
+1.  **Produto** (Mesa)
+2.  **Materia prima** (Madeira de carvalho)
+3.  **Composição** (10 de Mesa de Carvalho R$200,00)
 
 O sistema cruza esses dados e informa: _"Produza 10 Mesas hoje e fature R$ 2.000,00"_.
 
@@ -147,5 +147,5 @@ Tudo o que foi entregue nesta versão 1.0:
 
 ## 📝 Autor
 
-Desenvolvido com carinho e código limpo por **Carlos Resende**.
-_Projeto criado para fins de estudo e demostração técnica._
+Desenvolvido por **Carlos Paula**.
+_Projeto criado para o projeto de teste técnico._
