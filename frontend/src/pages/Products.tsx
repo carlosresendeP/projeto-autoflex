@@ -11,8 +11,6 @@ import { toast } from "react-toastify";
 const Products: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { list, loading } = useSelector((state: RootState) => state.product);
-
-  // Estados para controle de fluxo
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -21,19 +19,19 @@ const Products: React.FC = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  // Função para abrir o formulário em modo de criação
+  // Function to open form in create mode
   const handleNewProduct = () => {
     setSelectedProduct(null);
     setIsFormOpen(true);
   };
 
-  // Função para abrir detalhes ao clicar no card
+  // Function to open details when clicking on the card
   const handleCardClick = (product: Product) => {
     setSelectedProduct(product);
     setIsDetailsOpen(true);
   };
 
-  // Função para acionar a edição a partir dos detalhes
+  // Function to edit from details
   const handleEditFromDetails = () => {
     setIsDetailsOpen(false);
     setIsFormOpen(true);
@@ -59,8 +57,12 @@ const Products: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="animate-pulse text-center p-10">
+        <div className="animate-pulse text-center p-10 text-slate-500">
           Carregando produtos...
+        </div>
+      ) : list.length === 0 ? (
+        <div className="text-center p-10 text-slate-500">
+          Nenhum produto encontrado.
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -101,7 +103,6 @@ const Products: React.FC = () => {
         />
       )}
 
-      {/* Formulário (Reutilizado para Criar e Editar) */}
       {isFormOpen && (
         <ProductForm
           initialData={selectedProduct || undefined}

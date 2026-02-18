@@ -40,17 +40,57 @@ const Compositions = () => {
         </button>
       </div>
 
-      {loading && <p>Carregando...</p>}
-
-      {list.length === 0 && !loading && (
-        <div className="text-center py-12">
-          <p className="text-slate-500">Nenhuma composição encontrada.</p>
+      {loading ? (
+        <div className="animate-pulse text-center p-10 text-slate-500">
+          Carregando composições...
         </div>
-      )}
+      ) : list.length === 0 ? (
+        <div className="text-center p-10 text-slate-500">
+          Nenhuma composição encontrada.
+        </div>
+      ) : null}
 
       {isModalOpen && <CompositionForm onClose={() => setIsModalOpen(false)} />}
 
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      {/* Mobile View (Cards) */}
+      <div className="grid grid-cols-1 gap-4 md:hidden">
+        {list.map((c) => (
+          <div
+            key={c.id}
+            className="bg-white p-4 rounded-xl shadow-sm border border-slate-200"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="font-bold text-slate-800">{c.product.name}</h3>
+                <p className="text-sm text-slate-500">{c.rawMaterial.name}</p>
+              </div>
+              <span className="bg-indigo-50 text-indigo-700 font-mono font-bold px-3 py-1 rounded-lg text-sm">
+                {c.quantityRequired} un.
+              </span>
+            </div>
+            <button
+              onClick={async () => {
+                if (window.confirm("Remover este vínculo?")) {
+                  try {
+                    await dispatch(deleteComposition(c.id!)).unwrap();
+                    toast.success("Vínculo removido com sucesso!");
+                  } catch (error) {
+                    console.error(error);
+                    toast.error("Erro ao remover vínculo.");
+                  }
+                }
+              }}
+              className="w-full py-2 text-red-500 font-semibold border border-red-100 rounded-lg hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
+            >
+              <Trash2 size={16} />
+              Remover Vínculo
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop View (Table) */}
+      <div className="hidden md:block bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead className="bg-slate-50 border-b border-slate-200">
             <tr>

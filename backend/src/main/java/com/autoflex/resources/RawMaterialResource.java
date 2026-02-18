@@ -30,7 +30,7 @@ public class RawMaterialResource {
     public RawMaterial update(@PathParam("id") Long id, RawMaterial material) {
         RawMaterial entity = RawMaterial.findById(id);
         if (entity == null) {
-            throw new NotFoundException("Matéria-prima não encontrada.");
+            throw new NotFoundException("Raw material not found");
         }
 
         if (material.code != null) entity.code = material.code;

@@ -34,7 +34,7 @@ public class CompositionResource {
         Composition existing = Composition.find("product = ?1 and rawMaterial = ?2", p, m).firstResult();
         if (existing != null) {
             return Response.status(Response.Status.CONFLICT)
-                           .entity("Esta composição já existe. Use o PUT para atualizar a quantidade.").build();
+                           .entity("This composition already exists. Use PUT to update the quantity.").build();
         }
 
         composition.product = p;
@@ -50,7 +50,7 @@ public class CompositionResource {
     public Composition update(@PathParam("id") Long id, Composition composition) {
         Composition entity = Composition.findById(id);
         if (entity == null) {
-            throw new NotFoundException("Composição não encontrada.");
+            throw new NotFoundException("Composition not found");
         }
 
         if (composition.quantityRequired != null) entity.quantityRequired = composition.quantityRequired;

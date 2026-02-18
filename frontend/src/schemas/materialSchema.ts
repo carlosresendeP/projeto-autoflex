@@ -6,6 +6,5 @@ export const materialSchema = z.object({
   stockQuantity: z.coerce.number().min(0, "O estoque não pode ser negativo"),
 });
 
-// Tipos para o formulário seguindo seu padrão
 export type MaterialFormInput = z.input<typeof materialSchema>;
 export type MaterialFormData = z.output<typeof materialSchema>;

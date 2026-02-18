@@ -30,7 +30,7 @@ public class ProductResource {
     public Product update(@PathParam("id") Long id, Product product) {
         Product entity = Product.findById(id);
         if (entity == null) {
-            throw new NotFoundException("Produto não encontrado.");
+            throw new NotFoundException("Product not found");
         }
 
         // Se o valor for enviado, a gente atualiza. Se for null, mantém o antigo.

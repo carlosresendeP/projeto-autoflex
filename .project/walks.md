@@ -112,3 +112,5 @@ adcionar o toast para mostrar mensagens de sucesso e erro
 npm i react-toastify
 corrigir a responsividade do frontend 
 correção de erros
+correção na busca de produtos, materias-primas e composição feedback do usuário
+remoção de comentarios do codigo e correção de linguagem

@@ -69,7 +69,6 @@ export const CompositionForm = ({ onClose }: { onClose: () => void }) => {
               className="w-full mt-1 p-3 border rounded-lg border-slate-200 outline-none focus:ring-2 focus:ring-indigo-100 bg-white"
             >
               <option value="">Selecione um produto...</option>
-              {/* Agora o products.map vai funcionar porque o useEffect trouxe os dados */}
               {products.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.name} ({p.code})

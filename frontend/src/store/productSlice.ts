@@ -18,13 +18,13 @@ const initialState: ProductState = {
   error: null,
 };
 
-// Buscar todos os produtos
+// Search all products
 export const fetchProducts = createAsyncThunk("products/fetchAll", async () => {
   const response = await api.get<Product[]>("/products");
   return response.data;
 });
 
-// Adicionar novo produto
+// Add new product
 export const addProduct = createAsyncThunk(
   "products/add",
   async (newProduct: Omit<Product, "id">) => {
@@ -33,7 +33,7 @@ export const addProduct = createAsyncThunk(
   },
 );
 
-//editar o produto com o id
+// Edit product with id
 export const editProduct = createAsyncThunk(
   "products/edit",
   async (updatedProduct: Product) => {
@@ -45,7 +45,7 @@ export const editProduct = createAsyncThunk(
   },
 );
 
-//deletar o produto com o id
+// Delete product with id
 export const deleteProduct = createAsyncThunk(
   "products/delete",
   async (id: number) => {
@@ -62,6 +62,9 @@ const productSlice = createSlice({
     builder
       .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
+      })
+      .addCase(fetchProducts.rejected, (state) => {
+        state.loading = false;
       })
       .addCase(
         fetchProducts.fulfilled,

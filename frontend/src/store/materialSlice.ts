@@ -60,6 +60,9 @@ const materialSlice = createSlice({
       .addCase(fetchMaterials.pending, (state) => {
         state.loading = true;
       })
+      .addCase(fetchMaterials.rejected, (state) => {
+        state.loading = false;
+      })
       .addCase(
         fetchMaterials.fulfilled,
         (state, action: PayloadAction<RawMaterial[]>) => {

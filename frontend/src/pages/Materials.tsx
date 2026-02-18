@@ -24,19 +24,19 @@ const Materials: React.FC = () => {
     dispatch(fetchMaterials());
   }, [dispatch]);
 
-  // Função para abrir o formulário em modo de criação
+  // Function to open form in create mode
   const handleNewMaterial = () => {
     setSelectedMaterial(null);
     setIsFormOpen(true);
   };
 
-  // Função para abrir detalhes ao clicar no card
+  // Function to open details when clicking on the card
   const handleCardClick = (material: RawMaterial) => {
     setSelectedMaterial(material);
     setIsDetailsOpen(true);
   };
 
-  // Função para acionar a edição a partir dos detalhes
+  // Function to edit from details
   const handleEditFromDetails = () => {
     setIsDetailsOpen(false);
     setIsFormOpen(true);
@@ -62,8 +62,12 @@ const Materials: React.FC = () => {
       </div>
 
       {loading ? (
-        <div className="animate-pulse text-center p-10">
+        <div className="animate-pulse text-center p-10 text-slate-500">
           Carregando estoque...
+        </div>
+      ) : list.length === 0 ? (
+        <div className="text-center p-10 text-slate-500">
+          Nenhuma matéria-prima encontrada.
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -83,8 +87,6 @@ const Materials: React.FC = () => {
           ))}
         </div>
       )}
-
-      {/* Modal de Detalhes */}
       {isDetailsOpen && selectedMaterial && (
         <MaterialDetailsModal
           item={selectedMaterial}
@@ -103,7 +105,6 @@ const Materials: React.FC = () => {
         />
       )}
 
-      {/* Formulário (Reutilizado para Criar e Editar) */}
       {isFormOpen && (
         <MaterialForm
           initialData={selectedMaterial || undefined}

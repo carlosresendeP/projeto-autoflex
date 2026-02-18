@@ -10,6 +10,5 @@ export const productSchema = z.object({
   value: z.coerce.number().min(0.01, "O valor deve ser maior que zero"),
 });
 
-// Exporta o tipo gerado automaticamente pelo schema
 export type ProductFormData = z.output<typeof productSchema>;
 export type ProductFormInput = z.input<typeof productSchema>;
