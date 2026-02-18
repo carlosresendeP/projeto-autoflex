@@ -122,3 +122,18 @@ npx cypress open
 e feito o teste automatizado de todo o fluxo do projeto *ok*
 
 
+
+
+
+links de referencia
+vite: https://vite.dev/guide/
+tailwindcss: https://tailwindcss.com/docs
+react: https://react.dev/docs/getting-started.html
+quarkus: https://quarkus.io/guides/getting-started
+cypress: https://docs.cypress.io/app/get-started/install-cypress
+zod: https://zod.dev/
+react-hook-form: https://react-hook-form.com/docs
+axios: https://axios-http.com/docs/intro
+react-router: https://reactrouter.com/en/main
+react-toastify: https://fkhadra.github.io/react-toastify/introduction
+redux: https://redux.js.org/introduction/getting-started

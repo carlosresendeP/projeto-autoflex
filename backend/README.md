@@ -1,61 +1,109 @@
-# inventory-management
+# 🧠 AutoFlex Backend
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+O backend do AutoFlex é uma API RESTful robusta construída com **Java 17** e **Quarkus**, utilizando **Hibernate Panache** para persistência e **PostgreSQL** como banco de dados.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## 🛠️ Tecnologias e Ferramentas
 
-## Running the application in dev mode
+- **Linguagem**: Java 17+
+- **Framework**: Quarkus 3.x ("Supersonic Subatomic Java")
+- **Banco de Dados**: PostgreSQL 14+
+- **ORM**: Hibernate ORM with Panache
+- **API**: RESTEasy Reactive (JAX-RS)
+- **Build Tool**: Maven
 
-You can run your application in dev mode that enables live coding using:
+## 📂 Estrutura de Pastas
 
-```shell script
-./mvnw quarkus:dev
+A estrutura do projeto segue os princípios do Quarkus para micros serviços, mantendo o código limpo e organizado:
+
+```
+backend/src/main/java/com/autoflex/
+├── models/       # Entidades JPA (Mapeamento do Banco de Dados)
+│   ├── Product.java
+│   ├── RawMaterial.java
+│   └── Composition.java
+├── resources/    # Controladores REST (Endpoints da API)
+│   ├── ProductResource.java
+│   └── ...
+├── services/     # Regras de Negócio e Lógica Complexa
+│   └── ProductionService.java
+└── dto/          # Data Transfer Objects (Objetos de retorno)
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+## 🚀 Como Rodar o Backend
 
-## Packaging and running the application
+### Pré-requisitos
 
-The application can be packaged using:
+- Java JDK 17+ instalado
+- Docker rodando (para o banco de dados)
 
-```shell script
-./mvnw package
+### 1. Subir o Banco de Dados
+
+Se você ainda não criou o container do banco, execute:
+
+```bash
+docker run --name autoflex-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=autoflex -p 5432:5432 -d postgres
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+### 2. Executar em Modo Dev
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+Navegue até a pasta `backend` e execute:
 
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+```bash
+# Windows (CMD/PowerShell)
+.\mvnw quarkus:dev
+# Ou se tiver o CLI do Quarkus instalado:
+quarkus dev
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+> O sistema iniciará na porta **8080**.
+> O console do desenvolvedor (Dev UI) estará disponível em: `http://localhost:8080/q/dev`
 
-## Creating a native executable
+## 🔌 Endpoints da API
 
-You can create a native executable using:
+Aqui está a lista completa dos endpoints disponíveis para integração.
 
-```shell script
-./mvnw package -Dnative
+### 📦 Produtos (`/products`)
+
+| Método   | Endpoint         | Descrição               | Corpo da Requisição (JSON)       |
+| :------- | :--------------- | :---------------------- | :------------------------------- |
+| `GET`    | `/products`      | Lista todos os produtos | -                                |
+| `POST`   | `/products`      | Cria um novo produto    | `{"name": "...", "value": 10.5}` |
+| `PUT`    | `/products/{id}` | Atualiza um produto     | `{"name": "Novo Nome"}`          |
+| `DELETE` | `/products/{id}` | Remove um produto       | -                                |
+
+### 🧱 Matérias-Primas (`/materials`)
+
+| Método   | Endpoint          | Descrição                      | Corpo da Requisição (JSON)              |
+| :------- | :---------------- | :----------------------------- | :-------------------------------------- |
+| `GET`    | `/materials`      | Lista todas as matérias-primas | -                                       |
+| `POST`   | `/materials`      | Cria nova matéria-prima        | `{"name": "...", "stockQuantity": 100}` |
+| `PUT`    | `/materials/{id}` | Atualiza estoque/nome          | `{"stockQuantity": 50}`                 |
+| `DELETE` | `/materials/{id}` | Remove matéria-prima           | -                                       |
+
+### ⚗️ Composições / Receitas (`/compositions`)
+
+Define do que cada produto é feito.
+
+| Método   | Endpoint             | Descrição                     | Corpo da Requisição (JSON)                                                |
+| :------- | :------------------- | :---------------------------- | :------------------------------------------------------------------------ |
+| `GET`    | `/compositions`      | Lista todas as receitas       | -                                                                         |
+| `POST`   | `/compositions`      | Cria vínculo Produto-Material | `{"product": {"id": 1}, "rawMaterial": {"id": 2}, "quantityRequired": 5}` |
+| `PUT`    | `/compositions/{id}` | Atualiza quantidades          | `{"quantityRequired": 10}`                                                |
+| `DELETE` | `/compositions/{id}` | Remove o vínculo              | -                                                                         |
+
+### 💡 Produção (`/suggestions`)
+
+| Método | Endpoint       | Descrição                                           | Retorno                                              |
+| :----- | :------------- | :-------------------------------------------------- | :--------------------------------------------------- |
+| `GET`  | `/suggestions` | Calcula a melhor produção com base no estoque atual | Lista de sugestões com Qtd Possível e Valor Estimado |
+
+## ⚙️ Configuração (.env)
+
+O Quarkus gerencia as configurações no arquivo `src/main/resources/application.properties`.
+Para mudar a conexão do banco em produção, você pode usar variáveis de ambiente:
+
+```properties
+QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://localhost:5432/autoflex
+QUARKUS_DATASOURCE_USERNAME=postgres
+QUARKUS_DATASOURCE_PASSWORD=postgres
 ```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/inventory-management-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code for Hibernate ORM via the active record or the repository pattern
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- JDBC Driver - PostgreSQL ([guide](https://quarkus.io/guides/datasource)): Connect to the PostgreSQL database via JDBC
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
