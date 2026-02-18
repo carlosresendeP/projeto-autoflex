@@ -7,8 +7,22 @@ import { store } from "../store";
 import Products from "../pages/Products";
 import Materials from "../pages/Materials";
 import Compositions from "../pages/Compositions";
+import { ToastContainer, type ToastContainerProps } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AppRoutes = () => {
+
+  const toastConfig: ToastContainerProps = {
+  position: "top-right",
+  autoClose: 3000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  theme: "colored",
+};
+
+
   return (
     <BrowserRouter>
       <Provider store={store}>
@@ -22,6 +36,7 @@ const AppRoutes = () => {
 
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ToastContainer {...toastConfig} />
       </Provider>
     </BrowserRouter>
   );

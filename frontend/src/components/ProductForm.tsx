@@ -2,6 +2,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch } from "../store/hooks";
 import { addProduct, editProduct } from "../store/productSlice";
+import { toast } from "react-toastify";
 import {
   productSchema,
   type ProductFormData,
@@ -39,15 +40,17 @@ export const ProductForm = ({ onClose, initialData }: ProductFormProps) => {
 
   const handleSave = async (data: ProductFormData) => {
     try {
-      if (!isEditing){
+      if (!isEditing) {
         await dispatch(addProduct(data)).unwrap();
-      }else{
+        toast.success("Produto cadastrado com sucesso!");
+      } else {
         await dispatch(editProduct({ ...initialData, ...data })).unwrap();
+        toast.success("Produto atualizado com sucesso!");
       }
       onClose();
     } catch (error) {
       console.error("Erro ao salvar produto:", error);
-      alert("Erro ao salvar. Verifique se o código já existe.");
+      toast.error("Erro ao salvar. Verifique se o código já existe.");
     }
   };
 

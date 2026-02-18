@@ -106,3 +106,9 @@ estilização do header e footer
 Melhorias no Home
 
 Agora o quando acessa o /compositions é possivel ver a tabela de produtos e seu material e criar um nova composição com os produtos e materias-primas com a quantidade necessária.
+
+
+adcionar o toast para mostrar mensagens de sucesso e erro
+npm i react-toastify
+corrigir a responsividade do frontend 
+correção de erros

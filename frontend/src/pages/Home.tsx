@@ -4,6 +4,7 @@ import { fetchSuggestions } from '../store/productionSlice';
 import { fetchProducts } from '../store/productSlice';
 import { fetchMaterials } from '../store/materialSlice';
 import { KpiCard } from '../components/KpiCard';
+import { formatCurrency } from '../utils/format';
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -45,7 +46,7 @@ const Home = () => {
         />
         <KpiCard 
           label="Receita Estimada" 
-          value={new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalPotentialValue)} 
+          value={formatCurrency(totalPotentialValue)} 
           icon="💰" 
           color="indigo" 
         />
@@ -60,7 +61,7 @@ const Home = () => {
           <div className="flex justify-between items-center mb-8">
             <div>
               <h2 className="text-2xl font-bold italic">AutoFlex Intelligence</h2>
-              <p className="text-slate-400 text-sm">Baseado no estoque atual e composições cadastradas [cite: 2026-02-10].</p>
+              <p className="text-slate-400 text-sm">Baseado no estoque atual e composições cadastradas</p>
             </div>
             <div className="px-4 py-1 bg-blue-500/20 border border-blue-500/30 rounded-full text-xs font-bold text-blue-400 animate-pulse">
               LIVE UPDATE
@@ -85,7 +86,7 @@ const Home = () => {
                     <div className="flex justify-between items-center pt-4 border-t border-white/5 text-sm">
                       <span className="text-slate-500 italic">Valor sugerido de venda:</span>
                       <span className="font-mono font-bold text-emerald-400">
-                        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.totalValue)}
+                        {formatCurrency(item.totalValue)}
                       </span>
                     </div>
                   </div>

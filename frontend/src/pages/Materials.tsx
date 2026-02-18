@@ -6,6 +6,7 @@ import { Card } from "../components/Card";
 import { MaterialForm } from "../components/MaterialForm";
 import { MaterialDetailsModal } from "../components/MaterialDetalsModal";
 import type { RawMaterial } from "../types";
+import { toast } from "react-toastify";
 
 const Materials: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -43,7 +44,7 @@ const Materials: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-8 md:flex-row flex-col gap-4">
         <div>
           <h1 className="text-3xl font-bold text-slate-800">
             Gestão de Matérias-Primas
@@ -54,7 +55,7 @@ const Materials: React.FC = () => {
         </div>
         <button
           onClick={handleNewMaterial}
-          className="bg-primary hover:bg-dark/80 text-white px-6 py-2 rounded-lg font-bold shadow-lg transition-transform active:scale-95"
+          className="bg-primary hover:bg-primary/80 text-white px-6 py-2 rounded-lg font-bold shadow-lg transition-transform active:scale-95"
         >
           + Novo Material
         </button>
@@ -89,7 +90,16 @@ const Materials: React.FC = () => {
           item={selectedMaterial}
           onClose={() => setIsDetailsOpen(false)}
           onEdit={handleEditFromDetails}
-          onDelete={(id) => dispatch(deleteMaterial(id))}
+          onDelete={async (id) => {
+            try {
+              await dispatch(deleteMaterial(id)).unwrap();
+              toast.success("Matéria-prima excluída com sucesso!");
+              setIsDetailsOpen(false);
+            } catch (error) {
+              console.error(error);
+              toast.error("Erro ao excluir matéria-prima.");
+            }
+          }}
         />
       )}
 

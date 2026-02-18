@@ -18,7 +18,7 @@ export const MaterialDetailsModal = ({ item, onClose, onEdit, onDelete }: Materi
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden border-t-8 border-emerald-600">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden border-t-8 border-primary">
         <div className="p-4 bg-slate-50 border-b flex justify-between items-center">
           <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Estoque de Insumo</span>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">✕</button>
@@ -31,9 +31,9 @@ export const MaterialDetailsModal = ({ item, onClose, onEdit, onDelete }: Materi
           <h3 className="text-2xl font-bold text-slate-800 mb-1">{item.name}</h3>
           <p className="text-slate-500 font-medium mb-6">SKU: {item.code}</p>
           
-          <div className="bg-emerald-50 rounded-xl p-4 mb-8">
-            <p className="text-xs text-emerald-400 uppercase font-bold mb-1">Quantidade em Estoque</p>
-            <p className="text-3xl font-black text-emerald-700">
+          <div className="bg-primary/10 rounded-xl p-4 mb-8">
+            <p className="text-xs text-primary uppercase font-bold mb-1">Quantidade em Estoque</p>
+            <p className="text-3xl font-black text-primary">
               {item.stockQuantity} <span className="text-lg font-normal">un.</span>
             </p>
           </div>

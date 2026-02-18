@@ -33,7 +33,6 @@ const productionSlice = createSlice({
       .addCase(fetchSuggestions.pending, (state) => { state.loading = true; })
       
       .addCase(fetchSuggestions.fulfilled, (state, action) => {
-        console.log("Dados recebidos da API:", action.payload);
         state.loading = false;
         state.suggestions = Array.isArray(action.payload) ? action.payload : [];
       });
