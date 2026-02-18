@@ -97,3 +97,12 @@ edição do product.tsx e material.tsx para que seja possivel editar e excluir
 rota : http://localhost:5173/materials
 
 Ficou assim apos as melhorias: Agora é possivel criar, editar e excluir produtos e materias-primas 
+
+criação da pagina composition
+criação do compositionform
+criação do compositionSlide e schema
+criação do kpicard para mostrar a produção sugerida e receita
+estilização do header e footer
+Melhorias no Home
+
+Agora o quando acessa o /compositions é possivel ver a tabela de produtos e seu material e criar um nova composição com os produtos e materias-primas com a quantidade necessária.

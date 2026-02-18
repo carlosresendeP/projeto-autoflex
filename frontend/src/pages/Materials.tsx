@@ -54,7 +54,7 @@ const Materials: React.FC = () => {
         </div>
         <button
           onClick={handleNewMaterial}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-bold shadow-lg transition-transform active:scale-95"
+          className="bg-primary hover:bg-dark/80 text-white px-6 py-2 rounded-lg font-bold shadow-lg transition-transform active:scale-95"
         >
           + Novo Material
         </button>

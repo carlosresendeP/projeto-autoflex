@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "../store";
 import Products from "../pages/Products";
 import Materials from "../pages/Materials";
+import Compositions from "../pages/Compositions";
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
             <Route index element={<Home />} />
             <Route path="products" element={<Products />} />
             <Route path="materials" element={<Materials />} />
+            <Route path="compositions" element={<Compositions />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />
