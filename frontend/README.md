@@ -33,18 +33,21 @@ Por que um gerenciador de estado global?
 Entenda onde cada peça do quebra-cabeça se encaixa em `src/`:
 
 ```bash
+
 src/
-├── 🧩 components/  -> TIJOLOS (Botões, Inputs, Cards)
-│   ├── ui/         -> Componentes genéricos (shadcn-like)
-│   └── domain/     -> Componentes de negócio (ProductCard)
-├── 📄 pages/       -> CÔMODOS (As telas que o usuário vê)
-│   ├── Products/   -> Listagem e Edição de Produtos
-│   └── Production/ -> O Dashboard de Sugestões
-├── 🧠 store/       -> CÉREBRO (Estado Global - Redux)
-│   ├── slices/     -> Lógica fatiada (productSlice.ts)
-├── 📡 services/    -> MENSAGEIRO (Axios / API)
-│   └── api.ts      -> Configuração do cliente HTTP
-└── 📐 types/       -> CONTRATOS (Interfaces TypeScript)
+├── assets/          # Imagens, ícones e fontes globais
+├── components/      # Blocos de UI reutilizáveis (Botões, Inputs, Cards)
+├── layout/          # Estruturas de página (Sidebar, Header, Wrappers)
+├── pages/           # Telas completas da aplicação (ex: Home, Produtos)
+├── routes/          # Definição das rotas (URL -> Componente)
+├── schemas/         # Validação de dados com Zod
+├── services/        # Comunicação com a API (Axios, Fetchers)
+├── store/           # Estado global com Redux (Slices, Store)
+├── types/           # Tipos TypeScript compartilhados
+├── utils/           # Funções auxiliares e formatadores
+├── App.tsx          # Componente raiz
+├── main.tsx         # Ponto de entrada (Mount do React no DOM)
+└── index.css        # Estilos globais e variáveis CSS
 ```
 
 ---
@@ -68,7 +71,7 @@ A API está configurada em `src/services/api.ts`.
 Se precisar mudar a URL do backend (ex: deploy), crie um arquivo `.env` na raiz do `frontend`:
 
 ```env
-VITE_API_URL=https://api-autoflex-producao.com
+VITE_API_URL=http://localhost:8080
 ```
 
 ### Exemplo de uso no código:

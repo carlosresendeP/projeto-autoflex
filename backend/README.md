@@ -43,11 +43,13 @@ Gerencie o catálogo de itens finais.
 [
   {
     "id": 1,
-    "name": "Mesa de Jantar",
-    "value": 450.0
+    "code": "EST-001",
+    "name": "Estante de Livros",
+    "value": 300.5
   },
   {
     "id": 2,
+    "code": "EST-002",
     "name": "Cadeira",
     "value": 120.0
   }
@@ -59,6 +61,7 @@ Gerencie o catálogo de itens finais.
 ```json
 // Corpo da Requisição
 {
+  "code": "EST-001",
   "name": "Estante de Livros",
   "value": 300.5
 }
@@ -77,11 +80,13 @@ Controle o estoque de insumos.
 [
   {
     "id": 10,
+    "code": "EST-001",
     "name": "Madeira (m²)",
     "stockQuantity": 500
   },
   {
     "id": 11,
+    "code": "EST-002",
     "name": "Parafusos",
     "stockQuantity": 2000
   }
